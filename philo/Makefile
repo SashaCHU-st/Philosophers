@@ -2,6 +2,10 @@ NAME = philo
 FLAGS = -Wall -Wextra -Werror
 
 SRCS = philo.c \
+		utils.c \
+		check_arguments.c \
+		
+
 
 
 OBJS = $(SRCS:.c=.o)

@@ -6,40 +6,28 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:49:24 by aheinane          #+#    #+#             */
-/*   Updated: 2024/07/29 13:29:10 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:05:50 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "struct.h"
+#include "philo.h"
 
-int k = 0;
-pthread_mutex_t mutex;
-void *print1()
+void init_philo(t_philo *philo, char **argv)
 {
-	int i = 0;
-	while(i < 10000 )
-	{
-		pthread_mutex_lock(&mutex);
-		k++;
-		pthread_mutex_unlock(&mutex);
-		i++;
-	
-	}
-	return(NULL);
+	philo->number_of_philosophers = ft_atol(argv[1]);
+	philo->time_to_die = ft_atol(argv[2]);
+	philo->time_to_eat = ft_atol(argv[3]);
+	philo->time_to_sleep = ft_atol(argv[4]);
+	philo->number_of_times_each_philosopher_must_eat = ft_atol(argv[5]);
 }
+
 int main(int argc, char **argv)
 {
-	
-	pthread_t t1, t2;
-	pthread_mutex_init(&mutex, NULL);
-	pthread_create(&t1, NULL, &print1, NULL);
-	pthread_create(&t2, NULL, print1, NULL);
+	t_philo philo;
 
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
-	pthread_mutex_destroy(&mutex);
-	printf("Number of mails: %d\n", k);
-	write(1, "exit\n", 5);
-	return (0);
+	if(check(argc, argv) == 1);
+		printf("Not good\n");
+	init_philo(&philo, argv);
+	
 		
 }
