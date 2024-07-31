@@ -4,7 +4,7 @@ FLAGS = -Wall -Wextra -Werror
 SRCS = philo.c \
 		utils.c \
 		check_arguments.c \
-		
+
 
 
 
@@ -21,11 +21,9 @@ $(NAME): $(OBJS)
 	cc $(FLAGS) -c $< -o $@
 
 clean:
-	make clean -C
 	rm -f $(OBJS)
 
 fclean: clean
-	make fclean -C
 	rm -f $(NAME)
 
 re: fclean all
