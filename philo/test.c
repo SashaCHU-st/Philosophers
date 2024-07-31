@@ -9,6 +9,7 @@ void *print1()
 	{
 		pthread_mutex_lock(&mutex);
 		k++;
+		//printf("k %d", k);
 		pthread_mutex_unlock(&mutex);
 		i++;
 	
