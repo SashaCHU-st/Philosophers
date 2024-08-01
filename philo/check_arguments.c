@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:59:38 by aheinane          #+#    #+#             */
-/*   Updated: 2024/07/31 13:59:51 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:00:43 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	check_arguments(char *argv)
 	int	i;
 
 	i = 0;
-	printf("ft_atol(argv) %ld\n", ft_atol(argv));
 	if(ft_atol(argv) < 1)
 	{
 		printf("error???\n");
