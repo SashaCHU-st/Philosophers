@@ -13,11 +13,13 @@ void *print1(void *arg)
 {
 	int index = *(int*)arg;
 	int i = 0;
+	int lock_eat = pthread_mutex_lock(&mutex);
+	int unlock_eat =  pthread_mutex_unlock(&mutex);
 	while (i < 10000)
 	{
-		pthread_mutex_lock(&mutex);
+		lock_eat;
 		k++;
-		pthread_mutex_unlock(&mutex);
+		unlock_eat;
 		i++;
 	}
 	return NULL;
