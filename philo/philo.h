@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:19:12 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/01 12:03:23 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:56:08 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,20 @@
 
 typedef struct s_main
 {
-	int				number_of_philosophers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep; 
-	int				number_of_times_each_philosopher_must_eat;
+	int	number_of_philo;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep; 
+	int	number_of_times_each_philo_must_eat;
+	int	number_of_forks;
 } t_main;
 
 typedef struct s_philo
 {
-	pthread_mutex_t	right_fork;
+	int				index_philo;
+	int				right_fork;
+	pthread_mutex_t	left_fork;
+	
 } t_philo;
 
 
@@ -39,6 +43,6 @@ int	ft_isspace(int arg);
 long ft_atol(const char *str);
 int check_arguments(char *argv);
 int check(int argc, char **argv);
-void init_philo(t_main *main, char **argv);
+void init_main(t_main *main, char **argv);
 
 #endif
