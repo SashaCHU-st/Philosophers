@@ -13,13 +13,11 @@ void *print1(void *arg)
 {
 	int index = *(int*)arg;
 	int i = 0;
-	int lock_eat = pthread_mutex_lock(&mutex);
-	int unlock_eat =  pthread_mutex_unlock(&mutex);
 	while (i < 10000)
 	{
-		lock_eat;
+		pthread_mutex_lock(&mutex);
 		k++;
-		unlock_eat;
+		pthread_mutex_unlock(&mutex);
 		i++;
 	}
 	return NULL;
@@ -36,20 +34,14 @@ int main(int argc, char **argv)
 		{
 		thread_indices[j] = j;
 		if (pthread_create(&th[j], NULL, &print1, &thread_indices[j]) != 0)
-			{
-				perror("Failed to create thread");
 				return 1;
-			}
 			printf("Thread has started %d\n", j);
-		}
-		for (int j = 0; j < i; j++)
-		{
-			if (pthread_join(th[j], NULL) != 0)
-			{
-				perror("Failed to join thread");
+		// for (int j = 0; j < i; j++)
+		// {
+		if (pthread_join(th[j], NULL) != 0)
 				return 2;
-			}
 			printf("Thread has finished %d\n", j);
+	//	}
 		}
 
 		pthread_mutex_destroy(&mutex);
