@@ -4,6 +4,7 @@ FLAGS = -Wall -Wextra -Werror
 SRCS = philo.c \
 		utils.c \
 		check_arguments.c \
+		init.c \
 
 
 
