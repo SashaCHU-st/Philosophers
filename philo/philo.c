@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:49:24 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/05 14:20:22 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:56:13 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	eat(t_philo *philo)
 		first = 0;
 		second = philo->index_philo - 1;
 	}
+	//update_last_meal(philo, get_current_time());
 	pthread_mutex_lock(&philo->main_struct->forks[first]);
 	if (read_finish_process(philo->main_struct) >= philo->main_struct->number_of_philo)
 	{
@@ -115,9 +116,9 @@ int	eat(t_philo *philo)
 		return(1);
 	}
 	protect_write(philo->main_struct, philo->index_philo, "is eating");
-	printf("Philosopher %d starts eating at time %lu\n", philo->index_philo, get_current_time());
+//	printf("Philosopher %d starts eating at time %lu\n", philo->index_philo, get_current_time());
 	philo->last_meal_time = get_current_time();
-	//update_last_meal(philo, get_current_time());
+	update_last_meal(philo, get_current_time());
 	// ft_usleep(philo->main_struct->time_to_eat * 1000);
 	usleep(philo->main_struct->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->main_struct->forks[first]);
@@ -169,19 +170,63 @@ void *monitor(void *arg)
 	while (read_finish_process(main_struct) < main_struct->number_of_philo)
 	{
 		main_struct->philo[index_philo].last_meal_time = get_current_time();
-		if ((main_struct->philo[index_philo].last_meal_time + main_struct->time_to_die) <= get_current_time())
+		if ((main_struct->philo[index_philo].last_meal_time + main_struct->time_to_eat) <= get_current_time())
 		{
-		// printf("Hello %lu\n", (main_struct->philo[index_philo].last_meal_time + main_struct->time_to_eat));
-		// printf("Kuku %lu\n", get_current_time());
 			protect_write(main_struct, index_philo + 1, "dead");
 			update_finish_process(main_struct,  main_struct->number_of_philo);
+			return(NULL);
 		}
 		index_philo++;
-		if(main_struct->number_of_philo == index_philo)
+		if(main_struct->number_of_philo >= index_philo)
 			index_philo = 0;
+		usleep(100);
 	}
 	return(NULL);
 }
+
+
+// void *monitor(void *arg)
+// {
+//     t_main *main_struct = (t_main *)arg;
+//     int index_philo = 0;
+
+//     while (1)
+//     {
+//         size_t current_time = get_current_time();
+//         size_t elapsed_time;
+
+//         pthread_mutex_lock(&main_struct->time_meal_lock);
+//         elapsed_time = current_time - main_struct->philo[index_philo].last_meal_time;
+//         if (elapsed_time >= main_struct->time_to_die)
+//         {
+//             pthread_mutex_lock(&main_struct->write_lock);
+//             protect_write(main_struct, index_philo + 1, "dead");
+//             pthread_mutex_unlock(&main_struct->write_lock);
+//             pthread_mutex_lock(&main_struct->finish_process_lock);
+//             main_struct->finish_process = main_struct->number_of_philo;
+//             pthread_mutex_unlock(&main_struct->finish_process_lock);
+//             pthread_mutex_unlock(&main_struct->time_meal_lock);
+//             return (NULL);
+//         }
+//         pthread_mutex_unlock(&main_struct->time_meal_lock);
+
+//         index_philo++;
+//         if (index_philo >= main_struct->number_of_philo)
+//             index_philo = 0;
+
+//         usleep(100);
+
+//         pthread_mutex_lock(&main_struct->finish_process_lock);
+//         if (main_struct->finish_process >= main_struct->number_of_philo)
+//         {
+//             pthread_mutex_unlock(&main_struct->finish_process_lock);
+//             break;
+//         }
+//         pthread_mutex_unlock(&main_struct->finish_process_lock);
+//     }
+
+//     return (NULL);
+// }
 // void *monitor(void *arg)
 // {
 //     t_main *main_struct = (t_main *)arg;
