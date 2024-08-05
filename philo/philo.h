@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:19:12 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/04 13:25:27 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/05 09:31:36 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_main
 	size_t			time_to_eat;
 	size_t			time_to_sleep; 
 	int				number_of_times_each_philo_must_eat;
-	int				number_of_forks;
+	//int				number_of_forks;
 	long			start_time;
 	int				finish_process;
 	int				is_infinite;

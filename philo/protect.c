@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 10:29:44 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/04 13:20:11 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:15:03 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ void	update_finish_process(t_main *main_struct, int i)
 
 int	read_finish_process(t_main *main_struct)
 {
-	int i;
-		
+	int	i;
+	//printf("main_struct->finish_process %d\n", main_struct->finish_process );
 	pthread_mutex_lock(&main_struct->finish_process_lock);
 	i = main_struct->finish_process;
 	pthread_mutex_unlock(&main_struct->finish_process_lock);
 	return(i);
 }
-
 
 void	update_last_meal(t_philo *philo, long long i)
 {
@@ -46,8 +45,8 @@ void	update_last_meal(t_philo *philo, long long i)
 
 int	read_last_meal(t_philo *philo)
 {
-	long long i;
-		
+	long long	i;
+
 	pthread_mutex_lock(&philo->main_struct->time_meal_lock);
 	i = philo->last_meal_time;
 	pthread_mutex_unlock(&philo->main_struct->time_meal_lock);
