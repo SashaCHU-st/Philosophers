@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:49:24 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/07 14:22:26 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:19:56 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->main_struct->forks[first]);
 		return(1);
 	}
-	protect_write(philo->main_struct, philo->index_philo, "has taken a fork");
+	protect_write(philo->main_struct, philo->index_philo, "right has taken a fork");
 	pthread_mutex_lock(&philo->main_struct->forks[second]);
 	if (read_finish_process(philo->main_struct) >= philo->main_struct->number_of_philo)
 	{
@@ -106,7 +106,7 @@ int	eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->main_struct->forks[second]);
 		return(1);
 	}
-	protect_write(philo->main_struct, philo->index_philo, "has taken a fork");
+	protect_write(philo->main_struct, philo->index_philo, "left has taken a fork");
 	if (read_finish_process(philo->main_struct) >= philo->main_struct->number_of_philo)
 	{
 		pthread_mutex_unlock(&philo->main_struct->forks[first]);
@@ -280,7 +280,7 @@ void *monitor(void *arg)
 		// 	update_finish_process(main_struct, main_struct->number_of_philo);
 		// 	return (NULL);
 		// }
-		//usleep(1000);
+		usleep(1000);
 	}
 	return(NULL);
 }
