@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:19:12 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/05 09:31:36 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/06 08:51:43 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_main
 	size_t			time_to_eat;
 	size_t			time_to_sleep; 
 	int				number_of_times_each_philo_must_eat;
-	//int				number_of_forks;
 	long			start_time;
 	int				finish_process;
 	int				is_infinite;
@@ -43,12 +42,10 @@ typedef struct s_main
 
 typedef struct s_philo
 {
-	t_main			*main_struct;
-	// int				*dead
-	int				index_philo;
-	// int				is_philo_ate;
-unsigned long				last_meal_time;
-	int				all_meal_eaten;
+	t_main		*main_struct;
+	int			index_philo;
+unsigned long	last_meal_time;
+	int			all_meal_eaten;
 	int			right_fork;
 	int			left_fork;
 	
@@ -63,13 +60,11 @@ int				check(int argc, char **argv);
 int				init_main(t_main *main, int argc, char **argv);
 int				init_philo(t_philo *philo, t_main *main);
 unsigned long	get_current_time(void);
-int			eat(t_philo *philo);
-void 		*routine(void *arg);
-int			sleeping(t_philo *philo);
-int			thinking(t_philo *philo);
-void	protect_write(t_main *main, int i, char *task);
-void	update_finish_process(t_main *main, int i);
-int	read_finish_process(t_main *main);
-void	update_last_meal(t_philo *philo, long long i);
-int	read_last_meal(t_philo *philo);
+int				eat(t_philo *philo);
+void 			*routine(void *arg);
+void			protect_write(t_main *main, int i, char *task);
+void			update_finish_process(t_main *main, int i);
+int				read_finish_process(t_main *main);
+void			update_last_meal(t_philo *philo, long long i);
+int				read_last_meal(t_philo *philo);
 #endif
