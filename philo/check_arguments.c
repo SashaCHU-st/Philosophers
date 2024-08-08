@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:59:38 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/08 09:00:56 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:29:46 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_isdigit(int arg)
 	else
 		return (0);
 }
+
 int	ft_isspace(int arg)
 {
 	if ((arg >= 9 && arg <= 13) || arg == 32)
@@ -26,10 +27,14 @@ int	ft_isspace(int arg)
 	else
 		return (0);
 }
-long ft_atol(const char *str)
+
+long	ft_atol(const char *str)
 {
-	long result = 0;
-	int sign = 1;
+	long	result;
+	int		sign;
+
+	result = 0;
+	sign = 1;
 	while (ft_isspace(*str))
 		str++;
 	if (*str == '+' || *str == '-')
@@ -51,39 +56,39 @@ int	check_arguments(char *argv)
 	int	i;
 
 	i = 0;
-	if(ft_atol(argv) < 1)
+	if (ft_atol(argv) < 1)
 	{
 		printf("invalid times each philo must eat\n");
-		return(1);
+		return (1);
 	}
 	while (argv[i])
 	{
-		if(ft_isdigit(argv[i]) == 0)
+		if (ft_isdigit(argv[i]) == 0)
 		{
 			printf("Check the variable, can contain only numbers\n");
-			return(1);
+			return (1);
 		}
 		i++;
 	}
 	return (0);
 }
 
-int check(int argc, char **argv)
+int	check(int argc, char **argv)
 {
 	int	i;
 
 	i = 1;
-	if(argc < 5 || argc > 6)
+	if (argc < 5 || argc > 6)
 	{
 		printf("wrong amount of arguments\n");
 	}
-	if(ft_atol(argv[1]) < 1)
+	if (ft_atol(argv[1]) < 1)
 	{
-		printf("error,need at least 1 philo");
+		printf("error,need at least 1 philo\n");
 	}
 	while (i < argc)
 	{
-		if(check_arguments(argv[i]) == 1)
+		if (check_arguments(argv[i]) == 1)
 			return (1);
 		i++;
 	}

@@ -6,6 +6,11 @@ SRCS = philo.c \
 		check_arguments.c \
 		init.c \
 		protect.c \
+		time.c \
+		monitor.c \
+		finishing.c \
+		eating.c \
+		routine.c \
 
 
 
