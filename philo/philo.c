@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:49:24 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/07 15:19:56 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:08:44 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,18 @@ int	eat(t_philo *philo)
 		return(1);
 	}
 	protect_write(philo->main_struct, philo->index_philo, "right has taken a fork");
+	if (philo->main_struct->number_of_philo == 1)
+	{
+		ft_usleep(philo->main_struct->time_to_die);
+		pthread_mutex_lock(&philo->main_struct->finish_process_lock);
+		if (philo->main_struct->finish_process < philo->main_struct->number_of_philo)
+		{
+			protect_write(philo->main_struct, philo->index_philo, "dead");
+			update_finish_process(philo->main_struct, philo->main_struct->number_of_philo);
+		}
+		pthread_mutex_unlock(&philo->main_struct->finish_process_lock);
+		return (1);
+	}
 	pthread_mutex_lock(&philo->main_struct->forks[second]);
 	if (read_finish_process(philo->main_struct) >= philo->main_struct->number_of_philo)
 	{
@@ -118,11 +130,13 @@ int	eat(t_philo *philo)
 	usleep(philo->main_struct->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->main_struct->forks[first]);
 	pthread_mutex_unlock(&philo->main_struct->forks[second]);
+	pthread_mutex_lock(&philo->main_struct->time_meal_lock);
 	philo->all_meal_eaten++;
 	if( philo->all_meal_eaten == philo->main_struct->number_of_times_each_philo_must_eat)
 	{
 		update_finish_process(philo->main_struct,1 );
 	}
+	pthread_mutex_unlock(&philo->main_struct->time_meal_lock);
 	return(0);
 }
 
@@ -130,12 +144,12 @@ void *routine(void *arg)
 {
 	t_philo	*philo = (t_philo*)arg;
 
-	if(philo->main_struct->number_of_philo == 1)
-	{
-		protect_write(philo->main_struct, philo->index_philo, "dead");
-		update_finish_process(philo->main_struct,  philo->main_struct->number_of_philo);
-	}
-	else if(philo->index_philo % 2 == 1)
+	// if(philo->main_struct->number_of_philo == 1)
+	// {
+	// 	protect_write(philo->main_struct, philo->index_philo, "dead");
+	// 	update_finish_process(philo->main_struct,  philo->main_struct->number_of_philo);
+	// }
+	if(philo->index_philo % 2 == 1)
 	{
 		protect_write(philo->main_struct, philo->index_philo , "is thinking");
 		usleep(10000);
@@ -164,53 +178,37 @@ int starving(t_main *main_struct, int index_philo)
 	unsigned long current_time = get_current_time();
 	if((current_time - main_struct->philo[index_philo].last_meal_time) >= main_struct->time_to_die)
 	{
-		pthread_mutex_unlock(&main_struct->time_meal_lock);
 		protect_write(main_struct, index_philo + 1, "dead");
 		update_finish_process(main_struct, main_struct->number_of_philo);
+		pthread_mutex_unlock(&main_struct->time_meal_lock);
 		return(1);
 	}
 	pthread_mutex_unlock(&main_struct->time_meal_lock);
 	return(0);
 }
-int check_meal(t_main *main_struct)
-{
-	int i = 0;
-	int all_philos_ate_enough = 1;
+int check_meal(t_main *main_struct) {
+    int i = 0;
+    int all_philos_ate_enough = 1;
 
-	//pthread_mutex_lock(&main_struct->time_meal_lock);
-	while (i < main_struct->number_of_philo)
-	{
-		//printf("main_struct->philo[i].all_meal_eaten %d\n", main_struct->philo[i].all_meal_eaten);
-		// printf("main_struct->number_of_times_each_philo_must_eat %d\n", main_struct->number_of_times_each_philo_must_eat);
-		if(main_struct->is_infinite)
-		{
-			if (main_struct->philo[i].all_meal_eaten < main_struct->is_infinite)
-			{
-				all_philos_ate_enough = 0;
-				//printf("1\n");
-				break;
-			}
-			i++;
-		}
-		else
-		{
-			if (main_struct->philo[i].all_meal_eaten < main_struct->number_of_times_each_philo_must_eat)
-			{
-				all_philos_ate_enough = 0;
-				//printf("2\n");
-				break;
-			}
-			i++;
-		}
-	}
-	// if (all_philos_ate_enough)
-	// {
-	// 	printf("HERE\n");
-	// 	main_struct->finish_process = main_struct->number_of_philo;
-	// }
-	//pthread_mutex_unlock(&main_struct->time_meal_lock);
-	return all_philos_ate_enough;
+    pthread_mutex_lock(&main_struct->time_meal_lock);
+    while (i < main_struct->number_of_philo) {
+        if (main_struct->is_infinite) {
+            if (main_struct->philo[i].all_meal_eaten < main_struct->is_infinite) {
+                all_philos_ate_enough = 0;
+                break;
+            }
+        } else {
+            if (main_struct->philo[i].all_meal_eaten < main_struct->number_of_times_each_philo_must_eat) {
+                all_philos_ate_enough = 0;
+                break;
+            }
+        }
+        i++;
+    }
+    pthread_mutex_unlock(&main_struct->time_meal_lock);
+    return all_philos_ate_enough;
 }
+
 
 // int check_meal(t_main *main_struct)
 // {
@@ -333,7 +331,7 @@ int main(int argc, char **argv)
 
 	if(check(argc, argv) == 1)
 	{
-		printf("Check the variable, can contain only numbers\n");
+		//printf("Check the variable, can contain only numbers\n");
 		return(1);
 	}
 	if(init_main(&main_struct, argc, argv) == 1)

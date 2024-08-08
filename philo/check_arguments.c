@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:59:38 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/05 09:29:36 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/08 09:00:56 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,16 @@ int	check_arguments(char *argv)
 	i = 0;
 	if(ft_atol(argv) < 1)
 	{
-		printf("error???\n");
+		printf("invalid times each philo must eat\n");
 		return(1);
 	}
 	while (argv[i])
 	{
 		if(ft_isdigit(argv[i]) == 0)
+		{
+			printf("Check the variable, can contain only numbers\n");
 			return(1);
+		}
 		i++;
 	}
 	return (0);
@@ -72,11 +75,11 @@ int check(int argc, char **argv)
 	i = 1;
 	if(argc < 5 || argc > 6)
 	{
-		printf("error!!!!\n");
+		printf("wrong amount of arguments\n");
 	}
 	if(ft_atol(argv[1]) < 1)
 	{
-		printf("error,need at least 1 phil");
+		printf("error,need at least 1 philo");
 	}
 	while (i < argc)
 	{
