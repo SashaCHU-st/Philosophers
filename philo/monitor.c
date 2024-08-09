@@ -6,42 +6,42 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:31:16 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/08 17:07:12 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:05:41 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	starving(t_main *main_struct, int index_philo)
+int	starving(t_main *table, int index_philo)
 {
 	unsigned long	current_time;
 
-	pthread_mutex_lock(&main_struct->time_meal_lock);
+	pthread_mutex_lock(&table->time_meal_lock);
 	current_time = get_current_time();
-	if ((current_time - main_struct->philo[index_philo].last_meal_time)
-		>= main_struct->time_to_die)
+	if ((current_time - table->philo[index_philo].last_meal_time)
+		>= table->time_to_die)
 	{
-		protect_write(main_struct, index_philo + 1, "dead");
-		update_finish_process(main_struct, main_struct->number_of_philo);
-		pthread_mutex_unlock(&main_struct->time_meal_lock);
+		protect_write(table, index_philo + 1, "died");
+		update_finish_process(table, table->number_of_philo);
+		pthread_mutex_unlock(&table->time_meal_lock);
 		return (1);
 	}
-	pthread_mutex_unlock(&main_struct->time_meal_lock);
+	pthread_mutex_unlock(&table->time_meal_lock);
 	return (0);
 }
 
 void	*monitor(void *arg)
 {
-	t_main	*main_struct;
+	t_main	*table;
 	int		index_philo;
 
-	main_struct = (t_main *) arg;
-	while (read_finish_process(main_struct) < main_struct->number_of_philo)
+	table = (t_main *) arg;
+	while (read_finish_process(table) < table->number_of_philo)
 	{
 		index_philo = 0;
-		while (index_philo < main_struct->number_of_philo)
+		while (index_philo < table->number_of_philo)
 		{
-			if (starving(main_struct, index_philo))
+			if (starving(table, index_philo))
 				return (NULL);
 			index_philo++;
 		}
