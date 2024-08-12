@@ -1,9 +1,15 @@
 NAME = philo
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 SRCS = philo.c \
-		utils.c \
 		check_arguments.c \
+		init.c \
+		protect.c \
+		time.c \
+		monitor.c \
+		finishing.c \
+		eating.c \
+		routine.c \
 
 
 
