@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:59:38 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/15 08:38:13 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/14 10:12:18 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,16 @@ int	check_arguments(char *argv, int argc)
 	int	i;
 
 	i = 0;
-	if(ft_atol(argv) < 1)
+	(void)argc;
+	if (ft_atol(argv) < 1)
 	{
-		printf("error???\n");
-		return(1);
+		printf("no negative timing\n");
+		return (1);
+	}
+	if (ft_atol(argv) > 2520000)
+	{
+		printf("Too long time, more then 42 minutes\n");
+		return (1);
 	}
 	while (argv[i])
 	{
@@ -73,25 +79,17 @@ int	check_arguments(char *argv, int argc)
 	return (0);
 }
 
-int check(int argc, char **argv)
+int	philo_num_check(char **argv)
 {
-	int	i;
-
-	i = 1;
-	if(argc < 5 || argc > 6)
-	{
-		printf("error!!!!\n");
-	}
-	if(ft_atol(argv[1]) < 1)
+	if (ft_atol(argv[1]) < 1)
 	{
 		printf("Error,need at least 1 philo\n");
 		return (1);
 	}
-	while (argv[i])
+	if (ft_atol(argv[1]) > 2000000)
 	{
-		if(check_arguments(argv[i]) == 1)
-			return (1);
-		i++;
+		printf("Too many philos, limit 2000000\n");
+		return (1);
 	}
 	return (0);
 }
