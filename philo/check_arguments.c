@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 13:59:38 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/12 14:09:36 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/15 08:38:13 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,10 @@ int	check_arguments(char *argv, int argc)
 	int	i;
 
 	i = 0;
-	if (ft_atol(argv) < 1)
+	if(ft_atol(argv) < 1)
 	{
-		printf("no negative timing\n");
-		return (1);
-	}
-	if (argc == 6 && ft_atol(&argv[5]) < 1)
-	{
-		printf("invalid times each philo must eat\n");
-		return (1);
+		printf("error???\n");
+		return(1);
 	}
 	while (argv[i])
 	{
@@ -78,24 +73,23 @@ int	check_arguments(char *argv, int argc)
 	return (0);
 }
 
-int	check(int argc, char **argv)
+int check(int argc, char **argv)
 {
 	int	i;
 
 	i = 1;
-	if (argc < 5 || argc > 6)
+	if(argc < 5 || argc > 6)
 	{
-		printf("Wrong amount of arguments\n");
-		return (1);
+		printf("error!!!!\n");
 	}
-	if (ft_atol(argv[1]) < 1)
+	if(ft_atol(argv[1]) < 1)
 	{
 		printf("Error,need at least 1 philo\n");
 		return (1);
 	}
-	while (i < argc)
+	while (argv[i])
 	{
-		if (check_arguments(argv[i], argc) == 1)
+		if(check_arguments(argv[i]) == 1)
 			return (1);
 		i++;
 	}
