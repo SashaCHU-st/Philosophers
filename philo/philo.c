@@ -6,7 +6,7 @@
 /*   By: aheinane <aheinane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 09:49:24 by aheinane          #+#    #+#             */
-/*   Updated: 2024/08/14 10:06:34 by aheinane         ###   ########.fr       */
+/*   Updated: 2024/08/15 08:45:18 by aheinane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	error_msg(char *str)
 	printf("%s", str);
 	return (1);
 }
+
 
 int	check(int argc, char **argv)
 {
