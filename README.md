@@ -1,4 +1,4 @@
-# Philosophers
+# Philosophers 🍽
 
 The goal of this project was to use mutexes. 
 
