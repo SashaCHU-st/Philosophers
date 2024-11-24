@@ -1,6 +1,7 @@
 # Philosophers 🍽
 
 The goal of this project was to use mutexes. 
+![image](https://github.com/user-attachments/assets/fab65aa8-a042-4bed-9245-2ad64d07a819)
 
 ## Rules:
 - One or more philosophers sit at a round table.
